@@ -1,0 +1,14 @@
+.searched-plant-card {
+  border: 1px solid black;
+  margin: 10px;
+  overflow: hidden;
+}
+
+.searched-plant-card-content {
+  padding: 15px;
+}
+
+#searched-plants-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minMax(300px, 1fr));
+}
