@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack serve --open",
-    "start": "concurrently \"webpack serve --open\" \"nodemon server/server.js\""
+    "start": "concurrently \"webpack serve --open\" \"nodemon server/server.js\"",
+    "server": "nodemon server/server.js"
   },
   "author": "Anna Kempel, David Schweitzer, Timothy Cheng, Andrew Mott",
   "license": "ISC",
