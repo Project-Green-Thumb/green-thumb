@@ -1,9 +1,30 @@
 import React from 'react';
+import { useState } from 'react';
 
 const LoginForm = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    console.log(username);
+
+    const password = document.getElementById('password').value;
+    console.log(password);
+
+    console.log(
+      `logging in with username: ${username} and password: ${password}`
+    );
+
+    // handle backend logic here
+  };
+
   return (
     <div id='login-form-container'>
-      <form id='login-form' className='auth-form'>
+      <form
+        id='login-form'
+        className='auth-form'
+        onSubmit={(e) => handleSubmit(e)}
+      >
         <label htmlFor='username'>Username:</label>
         <br></br>
         <input type='text' id='username' name='username'></input>
@@ -12,7 +33,6 @@ const LoginForm = () => {
         <br></br>
         <input type='password' id='password' name='password'></input>
         <br></br>
-        {/* <input type='submit'>Log in</input> */}
         <input type='submit' value='Log in' id='login-button' />
       </form>
     </div>
