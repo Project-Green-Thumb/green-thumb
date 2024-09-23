@@ -1,7 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -14,8 +17,23 @@ const SignUpForm = () => {
     console.log(
       `signing up with username: ${username} and password: ${password}`
     );
-
+    console.log('hitting here');
     // handle backend logic here
+    fetch('api/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: username, password: password})
+    })
+    .then(data => {
+      console.log(data);
+      navigate('/dashboard/search');
+    })
+    .catch((error) => {
+      console.log('error', error);
+    })
   };
 
   return (
