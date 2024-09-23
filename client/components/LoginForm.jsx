@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -16,7 +18,24 @@ const LoginForm = () => {
     );
 
     // handle backend logic here
+    fetch(`api/login?username=${username}&password=${password}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+
+    .then(data => {
+      //console.log(data);
+      console.log('right here')
+      navigate('/dashboard/search')
+    })
+    .catch((error) => {
+      console.log('error', error);
+    })
   };
+  
 
   return (
     <div id='login-form-container'>
