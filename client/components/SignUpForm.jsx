@@ -1,7 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -24,9 +27,9 @@ const SignUpForm = () => {
       },
       body: JSON.stringify({username: username, password: password})
     })
-    .then(response => response.json())
     .then(data => {
       console.log(data);
+      navigate('/dashboard/search');
     })
     .catch((error) => {
       console.log('error', error);
