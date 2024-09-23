@@ -3,7 +3,8 @@ const path = require('path');//requires in path for better path's
 //body-parser
 const app = express();//makes a express app
 const mongoose = require('mongoose');//requires in mongoose
-const userController = require(path.join(__dirname, './Controllers/userController.js'))
+const userController = require(path.join(__dirname, './Controllers/userController.js'));
+const plantController = require(path.join(__dirname, './Controllers/plantController.js'));
 
 mongoose.connect('mongodb://127.0.0.1:27017/green-thumb')
 .then( (result) => {
@@ -37,8 +38,8 @@ app.post('/api/plants', (req, res) => {
 });
 
 //fetching all plants that make search querry
-app.get('/api/species', (req, res) => {
-
+app.get('/api/species', plantController.fetchSpecies, (req, res) => {
+    res.json(res.locals.plants);
 });
 
 //fetch the details for the species

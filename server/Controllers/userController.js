@@ -23,8 +23,8 @@ userController.createUser = async (req, res, next) => {
 };
 
 userController.verifyUser = async (req, res, next) => {
-const { username, password } = req.body;
-
+const { username, password } = req.query;
+console.log(req);
 if(!username || !password){return  next({message: 'both username and password fields are required'});}
 
 try {

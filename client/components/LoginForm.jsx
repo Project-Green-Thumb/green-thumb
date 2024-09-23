@@ -16,7 +16,22 @@ const LoginForm = () => {
     );
 
     // handle backend logic here
+    fetch(`api/login?username=${username}&password=${password}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log('error', error);
+    })
   };
+  
 
   return (
     <div id='login-form-container'>

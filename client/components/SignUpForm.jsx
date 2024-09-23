@@ -14,9 +14,23 @@ const SignUpForm = () => {
     console.log(
       `signing up with username: ${username} and password: ${password}`
     );
-
+    console.log('hitting here');
     // handle backend logic here
-    
+    fetch('api/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application.json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: username, password: password})
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log('error', error);
+    })
   };
 
   return (
