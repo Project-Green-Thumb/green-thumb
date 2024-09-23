@@ -14,21 +14,11 @@ const SearchedPlantsContainer = () => {
     const plantResults = [];
     for (let i = 0; i < currentResults.length; i++) {
       const plant = currentResults[i];
-      plantResults.push(
-        <SearchedPlantCard
-          key={plant.id}
-          {...plant}
-        />
-      );
+      plantResults.push(<SearchedPlantCard key={plant.id} {...plant} />);
     }
     setPlants(plantResults);
   }, [currentResults]);
-  return (
-    <div id='searched-plants-container'>
-      <p>Results:</p>
-      {plants}
-    </div>
-  );
+  return <div id='searched-plants-container'>{plants}</div>;
 };
 
 export default SearchedPlantsContainer;
