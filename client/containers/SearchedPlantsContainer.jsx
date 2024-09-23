@@ -13,10 +13,11 @@ const SearchedPlantsContainer = () => {
   useEffect(() => {
     const plantResults = [];
     for (let i = 0; i < currentResults.length; i++) {
+      const plant = currentResults[i];
       plantResults.push(
         <SearchedPlantCard
-          key={currentResults[i].plantId}
-          {...currentResults[i]}
+          key={plant.id}
+          {...plant}
         />
       );
     }
