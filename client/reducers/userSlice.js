@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   username: null,
+  isLoggedIn: false,
   favoritePlants: {},
   favoriteSearch: '',
 };
@@ -11,8 +12,18 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addPlant: (state) => {},
+    setUsername: (state, action) => {
+      state.username = action.payload;
+    },
+    setLoggedIn: (state) => {
+      if (state.isLoggedIn) {
+        state.isLoggedIn = false;
+      } else if (state.isLoggedIn) {
+        state.isLoggedIn = true;
+      }
+    },
   },
 });
 
-export const { addPlant } = userSlice.actions;
+export const { addPlant, setUsername, setLoggedIn } = userSlice.actions;
 export default userSlice.reducer;
