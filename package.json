@@ -4,6 +4,7 @@
   "description": "plant lookup app",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Anna Kempel, David Schweitzer, Timothy Cheng, Andrew Mott",
