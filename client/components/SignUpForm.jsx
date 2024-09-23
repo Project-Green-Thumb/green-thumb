@@ -16,6 +16,7 @@ const SignUpForm = () => {
     );
 
     // handle backend logic here
+    
   };
 
   return (
