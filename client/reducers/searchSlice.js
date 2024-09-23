@@ -4,7 +4,7 @@ const initialState = {
   searchBarValue: '',
   currentResults: [],
   cachedSearches: {},
-  allPreviousSearches: new Set(),
+  allPreviousSearches: [],
 };
 
 export const searchSlice = createSlice({
@@ -17,11 +17,14 @@ export const searchSlice = createSlice({
     setCurrentResults: (state, action) => {
       state.currentResults = action.payload;
     },
-    addCachedSearches: (state, action) => {
+    addCachedSearches: (state) => {
       state.cachedSearches[state.searchBarValue] = state.currentResults;
     },
-    addAllPreviousSearches: (state) => {
-      state.allPreviousSearches.push(state.currentResults);
+    addAllPreviousSearches: (state, action) => {
+        const resultSet = new Set(state.allPreviousSearches);
+        action.payload.forEach(el => result.add(el));
+        const resultArr = [...resultSet];
+      state.allPreviousSearches.push(resultArr);
     },
   },
 });
