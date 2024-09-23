@@ -1,18 +1,21 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import FavoritesPage from './pages/FavoritesPage';
 import SearchPage from './pages/SearchPage';
+import NavBar from './components/NavBar';
+import DashBoard from './containers/DashBoard';
 
 const App = () => {
   return (
     <BrowserRouter>
+      <Link to='/'>Login</Link>
+      <Link to='/signUp'>Sign Up</Link>
       <Routes>
-        <Route path='/login' element={<LoginPage />}></Route>
+        <Route path='/' element={<LoginPage />}></Route>
         <Route path='/signUp' element={<SignUpPage />}></Route>
-        <Route path='/favorites' element={<FavoritesPage />}></Route>
-        <Route path='/search' element={<SearchPage />}></Route>
+        <Route path='/dashboard/*' element={<DashBoard />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -4,7 +4,8 @@
   "description": "plant lookup app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack serve --open"
   },
   "author": "Anna Kempel, David Schweitzer, Timothy Cheng, Andrew Mott",
   "license": "ISC",
