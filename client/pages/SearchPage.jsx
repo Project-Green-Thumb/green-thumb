@@ -38,8 +38,11 @@ const SearchPage = () => {
     }
 
     fetch(`/api/species?search=${currentSearch}`)
-      .then((res) => res.json())
+      .then((res) => {
+        return res.json();
+      })
       .then((data) => {
+        console.log(data);
         dispatch(setCurrentResults(data));
         dispatch(addCachedSearches());
       });
