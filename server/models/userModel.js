@@ -8,6 +8,5 @@ const user = mongoose.Schema({
 
 
 
-// You must export your model through module.exports
-// The collection name should be 'student'
+
 module.exports = mongoose.model('user', user);
