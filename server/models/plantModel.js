@@ -18,6 +18,6 @@ const plant = mongoose.Schema({
 
 
 
-// You must export your model through module.exports
+
 
 module.exports = mongoose.model('plant', plant);
