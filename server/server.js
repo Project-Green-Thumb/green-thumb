@@ -14,10 +14,12 @@ const plantController = require('./Controllers/plantController.js');
  * DATABASE
  */
 
+const uri = process.env.TEST_URI || 'mongodb://127.0.0.1:27017/green-thumb';
+
 mongoose
-  .connect('mongodb://127.0.0.1:27017/green-thumb')
+  .connect(uri)
   .then(() => {
-    console.log('Mongoose DB connected: ', result);
+    console.log('Mongoose DB connected');
   })
   .catch((err) => {
     console.log('Failed to connect to the Mongoose DB: ', err);
@@ -30,7 +32,7 @@ app.use(express.json());
  * SERVE STATIC FILES
  */
 
-app.use('/', express.static(path.resolve(__dirname, './client/index.html')));
+app.use('/', express.static(path.resolve(__dirname, '../build')));
 
 /*
  * ROUTE HANDLERS
@@ -58,6 +60,16 @@ app.get('/api/species', plantController.fetchSpecies, (req, res) => {
 //fetch the care guide for the species
 app.get('/api/species/details', (req, res) => {});
 
+//
+app.use('*', (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, '../build/index.html'), (err) => {
+    if (err) {
+      console.log(err);
+      next(err);
+    }
+  });
+});
+
 /*
  * GLOBAL ERROR HANDLER
  */
@@ -66,11 +78,14 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Caught uknown error in middleware',
     status: 500,
-    message: { err: 'An error occurred' },
+    message: 'An error occurred',
   };
   const errObj = Object.assign({}, defaultErr, err);
-  console.error(errObj.log);
-  res.status(errObj.status).json('error: ' + errObj.message);
+  console.log(errObj.log);
+  console.log(errObj.message);
+  res.status(errObj.status).json({ error: errObj.message });
 });
 
 app.listen(3000);
+
+module.exports = app;

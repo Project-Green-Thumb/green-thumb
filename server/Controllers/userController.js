@@ -8,7 +8,7 @@ userController.createUser = async (req, res, next) => {
   if (!username || !password) {
     return next({
       status: 400,
-      message: 'Both username and password fields are required.',
+      message: 'Both username and password fields are required.' ,
     });
   }
 
@@ -23,7 +23,7 @@ userController.createUser = async (req, res, next) => {
     return next({
       log: error,
       status: 500,
-      message: 'Error creating account! Username may be taken.',
+      message: 'Error creating account! Username may be taken.' ,
     });
   }
 };
@@ -35,22 +35,16 @@ userController.verifyUser = async (req, res, next) => {
     return next({
       log: 'Client sent invalid request body',
       status: 400,
-      message: 'Both username and password fields are required.',
+      message: 'Both username and password fields are required.' ,
     });
   }
 
   try {
     const user = await User.findOne({ username: username });
-    if (user === null) {
+    if (user === null || password !== user.password) {
       return next({
         status: 400,
-        message: 'Invalid credentials.',
-      });
-    }
-    if (password !== user.password) {
-      return next({
-        status: 400,
-        message: 'Invalid credentials.',
+        message: 'Invalid credentials.' ,
       });
     } else if (password === user.password) {
       return next();
@@ -59,7 +53,7 @@ userController.verifyUser = async (req, res, next) => {
     console.log(error);
     return next({
       log: `Error in user verification ${error}`,
-      message: 'Internal server error.',
+      message: 'Internal server error.' ,
     });
   }
 };
