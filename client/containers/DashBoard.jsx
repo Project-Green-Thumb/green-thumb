@@ -4,6 +4,9 @@ import { Routes, Route } from 'react-router-dom';
 import FavoritesPage from '../pages/FavoritesPage';
 import SearchPage from '../pages/SearchPage';
 
+// renders from App 
+// and can navigate from SignUpForm
+// can navigate from LoginForm
 const DashBoard = () => {
   return (
     <div id='dashboard'>

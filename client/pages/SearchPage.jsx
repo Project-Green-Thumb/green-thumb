@@ -9,16 +9,11 @@ import {
 import { useState } from 'react';
 import SearchedPlantsContainer from '../containers/SearchedPlantsContainer';
 
+// rendered from DashBoard
 const SearchPage = () => {
   const [currentSearch, setCurrentSearch] = useState('');
   const dispatch = useDispatch();
-
-  const searchBarValue = useSelector((state) => state.search.searchBarValue);
-  const currentResults = useSelector((state) => state.search.currentResults);
-  const cachedSearches = useSelector((state) => state.search.cachedSearches);
-  const allPreviousSearches = useSelector(
-    (state) => state.search.allPreviousSearches
-  );
+  const { searchBarValue, currentResults, cachedSearches, allPreviousSearches } = useSelector((state) => state.search);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +26,7 @@ const SearchPage = () => {
       return;
     }
     for (let i = 0; i < allPreviousSearches.length; i++) {
-      if (searchBarValue === element.commonName) {
+      if (searchBarValue === element.commonName) { // where does element come from
         dispatch(setCurrentResults([element]));
         return;
       }
@@ -61,7 +56,7 @@ const SearchPage = () => {
         ></input>
         <input type='submit' value='submit'></input>
       </form>
-      <SearchedPlantsContainer />
+      <SearchedPlantsContainer currentResults={currentResults}/>
     </div>
   );
 };

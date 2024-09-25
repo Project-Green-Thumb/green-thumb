@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
+// rendered from SignUpPage
 const SignUpForm = () => {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
