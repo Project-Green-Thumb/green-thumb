@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// rendered from DashBoard
 const NavBar = () => {
   return (
     <div id='nav-bar'>

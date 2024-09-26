@@ -22,7 +22,7 @@ export const searchSlice = createSlice({
     },
     addAllPreviousSearches: (state, action) => {
         const resultSet = new Set(state.allPreviousSearches);
-        action.payload.forEach(el => result.add(el));
+        action.payload.forEach(el => resultSet.add(el));
         const resultArr = [...resultSet];
       state.allPreviousSearches.push(resultArr);
     },
