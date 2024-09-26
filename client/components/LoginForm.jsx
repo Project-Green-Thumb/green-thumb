@@ -9,30 +9,31 @@ const LoginForm = () => {
     e.preventDefault();
 
     const username = document.getElementById('username').value;
-    console.log(username);
 
     const password = document.getElementById('password').value;
-    console.log(password);
-
-    console.log(
-      `logging in with username: ${username} and password: ${password}`
-    );
 
     // handle backend logic here
-    fetch(`api/login?username=${username}&password=${password}`, {
-      method: 'GET',
+    fetch(`/api/login`, {
+      method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      body: JSON.stringify({
+        username,
+        password
+      })
     })
-
+    .then(res => {
+      return res.json();
+    })
     .then(data => {
       //console.log(data);
       console.log('right here')
+      sessionStorage.setItem('token', data.token)
       navigate('/dashboard/search')
     })
-    .catch((error) => {
+    .catch((error) => { 
       console.log('error', error);
     })
   };

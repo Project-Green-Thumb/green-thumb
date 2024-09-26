@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
-
+require('dotenv').config();
 const User = require('./models/userModel.js');
 
 /*
@@ -22,8 +22,6 @@ mongoose
   .connect(uri)
   .then(async () => {
     console.log('Mongoose DB connected');
-    await User.syncIndexes();
-    console.log('Indexes synced');
   })
   .catch((err) => {
     console.log('Failed to connect to the Mongoose DB: ', err);
@@ -47,7 +45,8 @@ app.post('/api/signup', userController.createUser, (req, res) => {
   res.status(201).json(res.locals.newUser);
 });
 app.post('/api/login', userController.verifyUser, (req, res) => {
-  res.sendStatus(200);
+  const token = res.locals.token;
+  res.status(200).json({ token });
 });
 
 // Favorites

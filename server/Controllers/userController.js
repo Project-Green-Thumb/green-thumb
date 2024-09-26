@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 const userController = {};
 
 userController.createUser = async (req, res, next) => {
@@ -14,9 +15,11 @@ userController.createUser = async (req, res, next) => {
   }
 
   try {
+    const hashPass = await bcrypt.hash(password, 10)
+
     const newUser = await User.create({
       username: username,
-      password: password,
+      password: hashPass,
     });
     res.locals.newUser = newUser;
     return next();
@@ -47,18 +50,29 @@ userController.verifyUser = async (req, res, next) => {
       message: 'Both username and password fields are required.',
     });
   }
-
   try {
     const user = await User.findOne({ username: username });
-    if (user === null || password !== user.password) {
+    if (user === null) {
       return next({
         log: 'Client sent invalid req body.',
         status: 400,
         message: 'Invalid credentials.',
       });
-    } else if (password === user.password) {
-      return next();
-    }
+    } 
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (!isMatch){
+          return next({
+            log: 'Invalid credentials',
+            status: 400,
+            message: 'Invalid credentials',
+          })
+        }
+
+        const token =  jwt.sign({ id: user._id }, process.env.JWT_SECRET, {expiresIn: '1h'})
+        res.locals.token = token;
+
+        return next();
+
   } catch (error) {
     console.log(error);
     return next({

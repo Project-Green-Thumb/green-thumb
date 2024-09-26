@@ -9,15 +9,9 @@ const SignUpForm = () => {
     e.preventDefault();
 
     const username = document.getElementById('username').value;
-    console.log(username);
 
     const password = document.getElementById('password').value;
-    console.log(password);
-
-    console.log(
-      `signing up with username: ${username} and password: ${password}`
-    );
-    console.log('hitting here');
+    
     // handle backend logic here
     fetch('api/signup', {
       method: 'POST',
