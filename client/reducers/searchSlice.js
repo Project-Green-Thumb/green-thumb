@@ -24,7 +24,7 @@ export const searchSlice = createSlice({
         const resultSet = new Set(state.allPreviousSearches);
         action.payload.forEach(el => resultSet.add(el));
         const resultArr = [...resultSet];
-      state.allPreviousSearches.push(resultArr);
+      state.allPreviousSearches = resultArr;
     },
   },
 });

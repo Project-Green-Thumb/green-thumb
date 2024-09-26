@@ -2,7 +2,6 @@ import React from 'react';
 
 // rendered from SearchedPlantsContainer
 const SearchedPlantCard = (props) => {
-  console.log('this here be the props object of SerchedPlantCard: ', props);
   return (
     <div className='searched-plant-card'>
       {props.default_image ? (
