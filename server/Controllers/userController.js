@@ -21,13 +21,21 @@ userController.createUser = async (req, res, next) => {
     res.locals.newUser = newUser;
     return next();
   } catch (error) {
+    //we can check here if the mongoDB error code matches their duplicate key error
+    if (error.code === 11000){}
     return next({
-      log: error,
-      status: 500,
+      log: 'Duplicate username error',
+      status: 409,
       message: 'Error creating account! Username may be taken.',
     });
   }
-};
+  return next ({
+    log: error,
+    status:500, 
+    message: 'Server error'
+  })
+  }
+
 
 userController.verifyUser = async (req, res, next) => {
   const { username, password } = req.body;

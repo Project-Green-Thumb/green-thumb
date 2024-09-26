@@ -21,6 +21,8 @@ describe('Route integration', () => {
   });
 
   afterAll(async () => {
+    const users = await User.find({});
+    console.log(users);
     // clear the db
     await mongoose.connection.dropDatabase();
     // close the connection
@@ -30,8 +32,11 @@ describe('Route integration', () => {
   });
 
   beforeEach(async () => {
-    // we want to clear the db before each test and (possibly) set up mock user data to interact with
+    // we want to clear the db before each test and set up mock user data to interact with
     await mongoose.connection.db.dropDatabase();
+
+    await User.create({ username: 'bartledoo', password: 'goodpass3' });
+    await User.syncIndexes();
   });
 
   describe('/', () => {
@@ -55,11 +60,6 @@ describe('Route integration', () => {
 
   describe('/api/login', () => {
     describe('POST', () => {
-      beforeEach(async () => {
-        // write our user models to put in the mock db to test here
-        await User.create({ username: 'bartledoo', password: 'goodpass3' });
-      });
-
       it('should login user with correct credentials', () => {
         return request(app)
           .post('/api/login')
@@ -68,7 +68,7 @@ describe('Route integration', () => {
       });
 
       // status of 400 and content type of JSON (error message) with incorrect credentials
-      it('should respond with a status of 400 and a text/json content type with incorrect credentials', () => {
+      it('should respond with a status of 400 and a application/json content type with incorrect credentials', () => {
         return request(app)
           .post('/api/login')
           .send({ username: 'bartledont', password: 'badpass3' })
@@ -76,6 +76,45 @@ describe('Route integration', () => {
           .expect((res) => {
             expect(res.headers['content-type']).toMatch(/application\/json/);
             expect(res.body).toHaveProperty('error', 'Invalid credentials.');
+          });
+      });
+
+      it('should respond with a 400 status and an error if username field is empty', () => {
+        return request(app)
+          .post('/api/login')
+          .send({ username: '', password: '123' })
+          .expect(400)
+          .expect((res) => {
+            expect(res.body).toHaveProperty(
+              'error',
+              'Both username and password fields are required.'
+            );
+          });
+      });
+
+      it('should respond with a 400 status and an error if password field is empty', () => {
+        return request(app)
+          .post('/api/login')
+          .send({ username: 'test', password: '' })
+          .expect(400)
+          .expect((res) => {
+            expect(res.body).toHaveProperty(
+              'error',
+              'Both username and password fields are required.'
+            );
+          });
+      });
+
+      it('should respond with a 400 status and an error if username and password fields are empty', () => {
+        return request(app)
+          .post('/api/login')
+          .send({ username: '', password: '' })
+          .expect(400)
+          .expect((res) => {
+            expect(res.body).toHaveProperty(
+              'error',
+              'Both username and password fields are required.'
+            );
           });
       });
     });
@@ -94,6 +133,60 @@ describe('Route integration', () => {
           .expect(201)
           .expect((res) => {
             expect(res.body).toHaveProperty('_id');
+          });
+      });
+
+      it('should return an error if username AND password fields are empty', () => {
+        return request(app)
+          .post('/api/signup')
+          .send({ username: '', password: '' })
+          .expect(400)
+          .expect((res) => {
+            expect(res.body).toHaveProperty(
+              'error',
+              'Both username and password fields are required.'
+            );
+          });
+      });
+
+      it('should return an error if username field is empty', () => {
+        return request(app)
+          .post('/api/signup')
+          .send({ username: '', password: 'testingTime' })
+          .expect(400)
+          .expect((res) => {
+            expect(res.body).toHaveProperty(
+              'error',
+              'Both username and password fields are required.'
+            );
+          });
+      });
+
+      it('should return an error if password field is empty', () => {
+        return request(app)
+          .post('/api/signup')
+          .send({ username: 'goober', password: '' })
+          .expect(400)
+          .expect((res) => {
+            expect(res.body).toHaveProperty(
+              'error',
+              'Both username and password fields are required.'
+            );
+          });
+      });
+
+      it('should return an error if username is already taken', async () => {
+        await User.create({ username: 'test', password: '123' });
+
+        return request(app)
+          .post('/api/signup')
+          .send({ username: 'test', password: 'goodpass3' })
+          .expect(409)
+          .expect((res) => {
+            expect(res.body).toHaveProperty(
+              'error',
+              'Error creating account! Username may be taken.'
+            );
           });
       });
     });

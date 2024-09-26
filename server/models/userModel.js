@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
 
-const user = mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  favPlants: { type: Array },
-});
+const userSchema = mongoose.Schema(
+  {
+    username: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
+    favPlants: { type: Array },
+  },
+  { collection: 'users' }
+);
 
-module.exports = mongoose.model('user', user);
+// userSchema.post('init', async function () {
+//   await this.constructor.syncIndexes();
+// });
+
+module.exports = mongoose.model('User', userSchema);

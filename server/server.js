@@ -3,6 +3,8 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 
+const User = require('./models/userModel.js');
+
 /*
  * CONTROLLERS
  */
@@ -18,8 +20,10 @@ const uri = process.env.TEST_URI || 'mongodb://127.0.0.1:27017/green-thumb';
 
 mongoose
   .connect(uri)
-  .then(() => {
+  .then(async () => {
     console.log('Mongoose DB connected');
+    await User.syncIndexes();
+    console.log('Indexes synced');
   })
   .catch((err) => {
     console.log('Failed to connect to the Mongoose DB: ', err);
@@ -40,7 +44,6 @@ app.use('/', express.static(path.resolve(__dirname, '../build')));
 
 // User
 app.post('/api/signup', userController.createUser, (req, res) => {
-  console.log(res.locals.newUser);
   res.status(201).json(res.locals.newUser);
 });
 app.post('/api/login', userController.verifyUser, (req, res) => {
