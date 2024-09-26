@@ -23,7 +23,7 @@ const SignUpForm = () => {
     })
     .then(data => {
       console.log(data);
-      navigate('/dashboard/search');
+      navigate('/');
     })
     .catch((error) => {
       console.log('error', error);

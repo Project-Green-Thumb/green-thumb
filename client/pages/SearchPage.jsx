@@ -21,13 +21,18 @@ const SearchPage = () => {
     dispatch(setSearchValue(currentSearch));
 
     // check if exact search is in cachedSearches, or if search exactly matches the common name of one of the previous searches
-    if (cachedSearches[searchBarValue]) {
-      dispatch(setCurrentResults(cachedSearches[searchBarValue]));
+    if (cachedSearches[currentSearch]) {
+      console.log('search bar value: ', searchBarValue)
+      console.log('currentSearch: ', currentSearch);
+      console.log('here we are');
+      dispatch(setCurrentResults(cachedSearches[currentSearch]));
+      console.log(currentResults);
       return;
     }
     for (let i = 0; i < allPreviousSearches.length; i++) {
-      if (searchBarValue === element.commonName) { // where does element come from
-        dispatch(setCurrentResults([element]));
+      if (currentSearch === allPreviousSearches[i].commonName) { 
+        console.log('found the plant');
+        dispatch(setCurrentResults(allPreviousSearches[i]));
         return;
       }
     }
@@ -39,8 +44,12 @@ const SearchPage = () => {
       .then((data) => {
         console.log(data);
         dispatch(setCurrentResults(data));
+        dispatch(addAllPreviousSearches(data));
+        // setSearchResults(data);
+      })
+      .then((data) => {
         dispatch(addCachedSearches());
-      });
+      })
   };
 
   return (
@@ -56,6 +65,8 @@ const SearchPage = () => {
         ></input>
         <input type='submit' value='submit'></input>
       </form>
+      <button onClick={() => console.log(cachedSearches)}>Console log cached searches</button>
+      <button onClick={() => console.log(allPreviousSearches)}>Console log all previous searches</button>
       <SearchedPlantsContainer currentResults={currentResults}/>
     </div>
   );

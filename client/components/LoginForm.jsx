@@ -7,6 +7,7 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
+    
 
     const username = document.getElementById('username').value;
 
@@ -24,7 +25,12 @@ const LoginForm = () => {
         password
       })
     })
-    .then(res => {
+    .then((res) => {
+      if(!res.ok){
+        return res.json().then((err) => {
+          throw new Error(err.message || 'Login failed')
+        });
+      }
       return res.json();
     })
     .then(data => {
@@ -34,8 +40,9 @@ const LoginForm = () => {
       navigate('/dashboard/search')
     })
     .catch((error) => { 
-      console.log('error', error);
+   console.error(error.message);
     })
+   
   };
   
 
