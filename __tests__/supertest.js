@@ -29,6 +29,11 @@ describe('Route integration', () => {
     await mongoServer.stop();
   });
 
+  beforeEach(async () => {
+    // we want to clear the db before each test and (possibly) set up mock user data to interact with
+    await mongoose.connection.db.dropDatabase();
+  });
+
   describe('/', () => {
     /*
      * STATIC FILES
@@ -51,9 +56,6 @@ describe('Route integration', () => {
   describe('/api/login', () => {
     describe('POST', () => {
       beforeEach(async () => {
-        // we want to clear the db before each test and set up mock user data to interact with
-        await mongoose.connection.db.dropDatabase();
-
         // write our user models to put in the mock db to test here
         await User.create({ username: 'bartledoo', password: 'goodpass3' });
       });
@@ -78,33 +80,22 @@ describe('Route integration', () => {
       });
     });
   });
+
+  /*
+   * SIGN UP
+   */
+
+  describe('/api/signup', () => {
+    describe('POST', () => {
+      it('should create new user on successful signup', () => {
+        return request(app)
+          .post('/api/signup')
+          .send({ username: 'testUser3', password: 'testPass3' })
+          .expect(201)
+          .expect((res) => {
+            expect(res.body).toHaveProperty('_id');
+          });
+      });
+    });
+  });
 });
-
-/*
- * SIGN UP
- */
-//   describe('/api/signup', () => {
-//   describe('POST', () => {
-//     it('');
-//   });
-// });
-
-// //////
-// const mockDb = {
-//   users: [
-//     { id: 1, name: 'John Doe' },
-//     { id: 2, name: 'Jane Smith' },
-//   ],
-
-//   getUserById: jest.fn((id) => {
-//     return mockDb.users.find((user) => user.id === id);
-//   }),
-
-//   createUser: jest.fn((user) => {
-//     const newId = mockDb.users.length + 1;
-//     mockDb.users.push({ ...user, id: newId });
-//     return { ...user, id: newId };
-//   }),
-// };
-
-// module.exports = mockDb;

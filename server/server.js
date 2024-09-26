@@ -40,7 +40,8 @@ app.use('/', express.static(path.resolve(__dirname, '../build')));
 
 // User
 app.post('/api/signup', userController.createUser, (req, res) => {
-  res.sendStatus(200);
+  console.log(res.locals.newUser);
+  res.status(201).json(res.locals.newUser);
 });
 app.post('/api/login', userController.verifyUser, (req, res) => {
   res.sendStatus(200);
