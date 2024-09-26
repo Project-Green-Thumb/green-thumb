@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Rendered from LoginPage
 const LoginForm = () => {
   const navigate = useNavigate()
   const handleSubmit = (e) => {

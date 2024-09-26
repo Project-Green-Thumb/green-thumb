@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { setLoggedIn } from '../reducers/userSlice';
 
-const SearchedPlantsContainer = () => {
+// rendered from SearchPage
+const SearchedPlantsContainer = ({currentResults}) => {
   const [plants, setPlants] = useState([]);
-  const currentResults = useSelector((state) => state.search.currentResults);
   // iterate over currentResults array
   // for each item in currentResults, create a new SearchedPlantCard component
   useEffect(() => {
