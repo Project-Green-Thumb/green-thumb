@@ -9,6 +9,9 @@
     "start": "concurrently \"webpack serve --open\" \"nodemon server/server.js\"",
     "server": "nodemon server/server.js"
   },
+  "jest": {
+    "testEnvironment": "jest-environment-jsdom"
+  },
   "author": "Anna Kempel, David Schweitzer, Timothy Cheng, Andrew Mott",
   "license": "ISC",
   "devDependencies": {
@@ -28,12 +31,14 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
+    "@babel/plugin-syntax-jsx": "^7.24.7",
     "@reduxjs/toolkit": "^2.2.7",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "express": "^4.21.0",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "mongoose": "^8.6.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -37,8 +37,9 @@ const SignUpForm = () => {
   };
 
   return (
-    <div id='signUp-form-container'>
+    <div data-testid='signUp-form-container' id='signUp-form-container'>
       <form
+        data-testid='signUp-form'
         id='signUp-form'
         className='auth-form'
         onSubmit={(e) => handleSubmit(e)}
