@@ -47,7 +47,7 @@ const SearchPage = () => {
     <div>
       SearchPage
       <form onSubmit={handleSubmit}>
-        <label for='search'>Search:</label>
+        <label htmlFor='search'>Search:</label>
         <input
           type='text'
           name='search'

@@ -9,8 +9,4 @@ const userSchema = mongoose.Schema(
   { collection: 'users' }
 );
 
-// userSchema.post('init', async function () {
-//   await this.constructor.syncIndexes();
-// });
-
 module.exports = mongoose.model('User', userSchema);
